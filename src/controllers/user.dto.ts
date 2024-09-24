@@ -46,3 +46,14 @@ export class UserDto {
   @IsString()
   name: string;
 }
+
+export class UserIdDto {
+  @ApiProperty({
+    description: 'The id of the User',
+    type: Number,
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+}
