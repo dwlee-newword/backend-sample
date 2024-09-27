@@ -5,8 +5,9 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, UserDto, UserIdDto } from './user.dto';
 import { UserService } from '../../services/user.service';
 
@@ -17,8 +18,21 @@ export class UserController {
 
   // read user list
   @Get('get')
-  async readUserList() {
-    const userList = await this.userService.getUserList();
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    description: 'Search keyword to filter user list (name or email)',
+  })
+  async readUserList(@Query('search') search: string) {
+    let userList = await this.userService.getUserList();
+    const lowerCaseSearch = search ? search.toLowerCase() : '';
+    if (search) {
+      userList = userList.filter(
+        (user) =>
+          user.name.toLowerCase().includes(lowerCaseSearch) ||
+          user.email.toLowerCase().includes(lowerCaseSearch),
+      );
+    }
 
     return {
       code: 200,
