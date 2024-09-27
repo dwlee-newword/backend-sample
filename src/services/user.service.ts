@@ -1,9 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
+import { user } from '@prisma/client';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getUserList(){
+    try {
+      return await this.prisma.user.findMany();
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
 
   async createUser(name: string, email: string) {
     try {
@@ -18,7 +27,7 @@ export class UserService {
     }
   }
 
-  async getUser(id: number) {
+  async getUser(id: number): Promise<user> {
     try {
       return await this.prisma.user.findUnique({
         where: {

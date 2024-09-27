@@ -15,8 +15,19 @@ import { UserService } from '../services/user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // read user list
+  @Get('get')
+  async readUserList() {
+    const userList = await this.userService.getUserList();
+
+    return {
+      code: 200,
+      message: 'Success',
+      data: userList,
+    };
+  }
   // create user
-  @Post('/create')
+  @Post('create')
   async createUser(@Body() body: CreateUserDto) {
     const { name, email } = body;
     const user = await this.userService.createUser(name, email);
