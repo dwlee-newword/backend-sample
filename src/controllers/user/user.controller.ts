@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto, UserDto, UserIdDto } from './user.dto';
+import { CreateUserDto } from './user.dto';
 import { UserService } from '../../services/user.service';
 
 @ApiTags('User')
@@ -17,7 +17,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // read user list
-  @Get('get')
+  @Get('/search')
   @ApiQuery({
     name: 'search',
     required: false,
@@ -25,8 +25,8 @@ export class UserController {
   })
   async readUserList(@Query('search') search: string) {
     let userList = await this.userService.getUserList();
-    const lowerCaseSearch = search ? search.toLowerCase() : '';
-    if (search) {
+    const lowerCaseSearch = search ? search.toLowerCase() : undefined;
+    if (lowerCaseSearch) {
       userList = userList.filter(
         (user) =>
           user.name.toLowerCase().includes(lowerCaseSearch) ||
@@ -53,8 +53,9 @@ export class UserController {
       data: user,
     };
   }
+
   // read user
-  @Get('get/:id')
+  @Get('/:id')
   async readUser(@Param('id', ParseIntPipe) id: number) {
     const user = await this.userService.getUser(id);
 
@@ -64,10 +65,14 @@ export class UserController {
       data: user,
     };
   }
+
   // update user
-  @Post('update')
-  async updateUser(@Body() body: UserDto) {
-    const { id, name, email } = body;
+  @Post('update/:id')
+  async updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: CreateUserDto,
+  ) {
+    const { name, email } = body;
     const user = await this.userService.updateUser(id, name, email);
     return {
       code: 200,
@@ -75,10 +80,10 @@ export class UserController {
       data: user,
     };
   }
+
   // delete user
-  @Post('delete')
-  async deleteUser(@Body() body: UserIdDto) {
-    const { id } = body;
+  @Post('delete/:id')
+  async deleteUser(@Param('id', ParseIntPipe) id: number) {
     const user = await this.userService.deleteUser(id);
     return {
       code: 200,

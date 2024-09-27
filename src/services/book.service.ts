@@ -5,44 +5,27 @@ import { PrismaService } from './prisma.service';
 export class BookService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createUser(name: string, email: string) {
+  async getBookList() {
     try {
-      return await this.prisma.user.create({
-        data: {
-          name,
-          email,
-        },
-      });
+      return await this.prisma.book.findMany();
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  async getUser(id: number) {
-    try {
-      return await this.prisma.user.findUnique({
-        where: {
-          id,
-        },
-      });
-    } catch (e) {
-      throw new Error(e);
-    }
-  }
-
-  async updateUser(
-    id: number,
-    name: string | undefined,
-    email: string | undefined,
+  async createBook(
+    title: string,
+    author: string,
+    summary: string,
+    issn: string,
   ) {
     try {
-      return await this.prisma.user.update({
-        where: {
-          id,
-        },
+      return await this.prisma.book.create({
         data: {
-          name,
-          email,
+          title,
+          author,
+          summary,
+          issn,
         },
       });
     } catch (e) {
@@ -50,9 +33,45 @@ export class BookService {
     }
   }
 
-  async deleteUser(id: number) {
+  async getBook(id: number) {
     try {
-      return await this.prisma.user.delete({
+      return await this.prisma.book.findUnique({
+        where: {
+          id,
+        },
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async updateBook(
+    id: number,
+    title: string | undefined,
+    author: string | undefined,
+    summary: string | undefined,
+    issn: string | undefined,
+  ) {
+    try {
+      return await this.prisma.book.update({
+        where: {
+          id,
+        },
+        data: {
+          title,
+          author,
+          summary,
+          issn,
+        },
+      });
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async deleteBook(id: number) {
+    try {
+      return await this.prisma.book.delete({
         where: {
           id,
         },

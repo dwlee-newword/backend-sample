@@ -26,7 +26,8 @@ model book {
   id        Int      @id @default(autoincrement())
   title     String
   author    String
-  issn      String
+  summary   String   
+  issn      String   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

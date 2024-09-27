@@ -32,7 +32,29 @@ export class RentService {
     }
   }
 
-  async rejectRent(rentId: number) {}
+  async rejectRent(rentId: number) {
+    try {
+      await this.prisma.rent.update({
+        where: { id: rentId },
+        data: {
+          rent_state: RENT_STATE.REJECTED,
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
-  async returnRent(rentId: number) {}
+  async returnRent(rentId: number) {
+    try {
+      await this.prisma.rent.update({
+        where: { id: rentId },
+        data: {
+          rent_state: RENT_STATE.RETURNED,
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

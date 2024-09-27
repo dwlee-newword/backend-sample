@@ -18,13 +18,3 @@ export class RequestRentDto {
   @IsNumber()
   bookId: number;
 }
-
-export class RentIdDto {
-  @ApiProperty({
-    description: 'The id of the Rent',
-    type: Number,
-    example: 1,
-  })
-  @IsNumber()
-  id: number;
-}

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class BookInfoDto {
+export class BookDto {
   @ApiProperty({
     description: 'The title of the Book',
     type: String,
@@ -40,7 +40,7 @@ export class BookInfoDto {
   issn: string;
 }
 
-export class CreateBookDto extends BookInfoDto {
+export class CreateBookDto extends BookDto {
   @ApiProperty({
     description: 'The admin id of the library',
     type: Number,
