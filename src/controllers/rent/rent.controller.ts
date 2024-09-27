@@ -1,7 +1,7 @@
 import { Body, Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RentService } from '../../services/rent.service';
-import { RentIdDto, RequestRentDto } from "./rent.dto";
+import { RentIdDto, RequestRentDto } from './rent.dto';
 
 @ApiTags('Rent')
 @Controller('rent')
