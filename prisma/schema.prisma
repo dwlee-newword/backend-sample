@@ -17,39 +17,39 @@ model user {
   id          Int          @id @default(autoincrement())
   email       String       @unique
   name        String?
-  isAdmin     Boolean      @default(false)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  is_admin    Boolean      @default(false)
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
   user_detail user_detail?
 }
 
 model user_detail {
-  userId     Int      @id @unique
+  user_id    Int      @id @unique
   address    String
   phone      String
-  rent_count Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  user       user     @relation(fields: [userId], references: [id])
+  rent_count Int      @default(0)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       user     @relation(fields: [user_id], references: [id])
 }
 
 model book {
-  id        Int      @id @default(autoincrement())
-  title     String
-  author    String
-  summary   String
-  issn      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  title      String
+  author     String
+  summary    String
+  issn       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model rent {
   id         Int        @id @default(autoincrement())
-  userId     Int
-  bookId     Int
+  user_id    Int
+  book_id    Int
   rent_state RENT_STATE
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
 }
 
 enum RENT_STATE {
