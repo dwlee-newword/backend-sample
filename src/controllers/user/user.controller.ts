@@ -42,11 +42,15 @@ export class UserController {
   }
 
   // create user
-  // TODO: user_detail 테이블에도 정보 추가하기
   @Post('/create')
   async createUser(@Body() body: CreateUserDto) {
-    const { name, email } = body;
+    const { name, email, address, phone } = body;
     const user = await this.userService.createUser(name, email);
+    await this.userService.createUserDetail({
+      userId: user.id,
+      address: address,
+      phone: phone,
+    });
 
     return {
       code: 200,
@@ -56,7 +60,6 @@ export class UserController {
   }
 
   // read user
-  // TODO: user_detail 테이블에 있는 정보도 가져오기
   @Get('/:id')
   async readUser(@Param('id', ParseIntPipe) id: number) {
     const user = await this.userService.getUser(id);
@@ -69,14 +72,19 @@ export class UserController {
   }
 
   // update user
-  // TODO: user_detail 테이블에도 정보 수정하기
   @Post('update/:id')
   async updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: CreateUserDto,
   ) {
-    const { name, email } = body;
-    const user = await this.userService.updateUser(id, name, email);
+    const { name, email, address, phone } = body;
+    const user = await this.userService.updateUser(
+      id,
+      name,
+      email,
+      address,
+      phone,
+    );
     return {
       code: 200,
       message: 'Success',
@@ -85,7 +93,6 @@ export class UserController {
   }
 
   // delete user
-  // TODO: user_detail 테이블에 있는 정보도 삭제하기
   @Post('delete/:id')
   async deleteUser(@Param('id', ParseIntPipe) id: number) {
     const user = await this.userService.deleteUser(id);
@@ -96,7 +103,6 @@ export class UserController {
     };
   }
 
-  // TODO: 사용자가 빌린 책 리스트
   @ApiProperty({
     description: '사용자가 빌린 책의 제목과 ID를 가져옵니다.',
     type: Array,
@@ -106,14 +112,29 @@ export class UserController {
     ],
   })
   @Get('rent/list/:userId')
-  async rentList(@Param('userId', ParseIntPipe) userId: number) {}
+  async rentList(@Param('userId', ParseIntPipe) userId: number) {
+    const rent = await this.userService.getUserRentList(userId);
+
+    return {
+      code: 200,
+      message: 'Success',
+      data: rent,
+    };
+  }
 
   @ApiProperty({
     description: '사용자가 빌린 책의 총 개수를 가져옵니다.',
     type: Number,
     example: 2,
   })
-  // TODO: 사용자가 빌린 책 count
   @Get('rent/count/:userId')
-  async rentCount(@Param('userId', ParseIntPipe) userId: number) {}
+  async rentCount(@Param('userId', ParseIntPipe) userId: number) {
+    const rent = await this.userService.getUserRentList(userId);
+
+    return {
+      code: 200,
+      message: 'Success',
+      data: rent.length,
+    };
+  }
 }

@@ -10,6 +10,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   email: string;
+
   @ApiProperty({
     description: 'The name of the User',
     type: String,
@@ -18,4 +19,20 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @ApiProperty({
+    description: 'The address of the User',
+    type: String,
+    example: 'Seoul',
+  })
+  @IsString()
+  address: string;
+
+  @ApiProperty({
+    description: 'The phone of the User',
+    type: String,
+    example: '010-1111-2222',
+  })
+  @IsString()
+  phone: string;
 }

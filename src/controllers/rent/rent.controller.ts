@@ -1,4 +1,11 @@
-import { Body, Controller, Param, ParseIntPipe, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RentService } from '../../services/rent.service';
 import { RequestRentDto } from './rent.dto';
@@ -7,6 +14,18 @@ import { RequestRentDto } from './rent.dto';
 @Controller('rent')
 export class RentController {
   constructor(private readonly rentService: RentService) {}
+
+  // read rent list
+  @Get('/search')
+  async readRentList() {
+    const rentList = await this.rentService.getRentList();
+
+    return {
+      code: 200,
+      message: 'Success',
+      data: rentList,
+    };
+  }
 
   // request rent
   @Post('request')
@@ -22,7 +41,6 @@ export class RentController {
   }
 
   // accept rent
-  // TODO: rent가 성공적으로 이루어 지면, user_detail의 rent_count가 1 증가해야 합니다.
   @Post('accept/:id')
   async acceptRent(@Param('id', ParseIntPipe) id: number) {
     const rent = await this.rentService.acceptRent(id);
@@ -47,7 +65,6 @@ export class RentController {
   }
 
   // return rent
-  // TODO: return이 성공적으로 이루어 지면, user_detail의 rent_count가 1 감소해야 합니다.
   @Post('return/:id')
   async returnRent(@Param('id', ParseIntPipe) id: number) {
     const rent = await this.rentService.returnRent(id);
