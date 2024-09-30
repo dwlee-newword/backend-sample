@@ -22,6 +22,7 @@ export class RentController {
   }
 
   // accept rent
+  // TODO: rent가 성공적으로 이루어 지면, user_detail의 rent_count가 1 증가해야 합니다.
   @Post('accept/:id')
   async acceptRent(@Param('id', ParseIntPipe) id: number) {
     const rent = await this.rentService.acceptRent(id);
@@ -46,6 +47,7 @@ export class RentController {
   }
 
   // return rent
+  // TODO: return이 성공적으로 이루어 지면, user_detail의 rent_count가 1 감소해야 합니다.
   @Post('return/:id')
   async returnRent(@Param('id', ParseIntPipe) id: number) {
     const rent = await this.rentService.returnRent(id);
