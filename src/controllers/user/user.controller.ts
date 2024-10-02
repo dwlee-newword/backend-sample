@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, UpdateUserDto, UserIdDto } from './user.dto';
 import { UserService } from '../../services/user.service';
 
 @ApiTags('User')
@@ -72,12 +72,9 @@ export class UserController {
   }
 
   // update user
-  @Post('update/:id')
-  async updateUser(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: CreateUserDto,
-  ) {
-    const { name, email, address, phone } = body;
+  @Post('/update')
+  async updateUser(@Body() body: UpdateUserDto) {
+    const { id, name, email, address, phone } = body;
     const user = await this.userService.updateUser(
       id,
       name,
@@ -93,8 +90,9 @@ export class UserController {
   }
 
   // delete user
-  @Post('delete/:id')
-  async deleteUser(@Param('id', ParseIntPipe) id: number) {
+  @Post('/delete/:id')
+  async deleteUser(@Body() body: UserIdDto) {
+    const { id } = body;
     const user = await this.userService.deleteUser(id);
     return {
       code: 200,
@@ -111,7 +109,7 @@ export class UserController {
       { id: 2, title: '책 제목' },
     ],
   })
-  @Get('rent/list/:userId')
+  @Get('/rent/list/:userId')
   async rentList(@Param('userId', ParseIntPipe) userId: number) {
     const rent = await this.userService.getUserRentList(userId);
 
@@ -127,7 +125,7 @@ export class UserController {
     type: Number,
     example: 2,
   })
-  @Get('rent/count/:userId')
+  @Get('/rent/count/:userId')
   async rentCount(@Param('userId', ParseIntPipe) userId: number) {
     const rent = await this.userService.getUserRentList(userId);
 
