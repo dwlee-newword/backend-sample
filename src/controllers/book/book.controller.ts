@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { BookService } from '../../services/book.service';
-import { CreateBookDto } from './book.dto';
+import { BookIdDto, CreateBookDto, UpdateBookDto } from './book.dto';
 
 @ApiTags('Book')
 @Controller('book')
@@ -45,7 +45,7 @@ export class BookController {
   }
 
   // 도서 등록
-  @Post('create')
+  @Post('/create')
   async createBook(@Body() body: CreateBookDto) {
     const { title, author, summary, issn } = body;
     const book = await this.bookService.createBook(
@@ -74,12 +74,9 @@ export class BookController {
   }
 
   // 도서 수정
-  @Post('update/:id')
-  async updateBook(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: CreateBookDto,
-  ) {
-    const { title, author, summary, issn } = body;
+  @Post('/update')
+  async updateBook(@Body() body: UpdateBookDto) {
+    const { id, title, author, summary, issn } = body;
     const book = await this.bookService.updateBook(
       id,
       title,
@@ -95,8 +92,9 @@ export class BookController {
   }
 
   // 도서 삭제
-  @Post('delete/:id')
-  async deleteBook(@Param('id', ParseIntPipe) id: number) {
+  @Post('/delete')
+  async deleteBook(@Body() body: BookIdDto) {
+    const { id } = body;
     const book = await this.bookService.deleteBook(id);
     return {
       code: 200,

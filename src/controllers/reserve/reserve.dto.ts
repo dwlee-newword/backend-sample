@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { RESERVE_TIME } from '@prisma/client';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateReserveDto {
   @ApiProperty({
@@ -65,6 +65,7 @@ export class UpdateReserveDto {
     example: 1,
   })
   @IsNumber()
+  @IsOptional()
   userId: number;
 
   @ApiProperty({
@@ -73,6 +74,7 @@ export class UpdateReserveDto {
     example: 1,
   })
   @IsNumber()
+  @IsOptional()
   roomId: number;
 
   @ApiProperty({
@@ -81,6 +83,7 @@ export class UpdateReserveDto {
     example: 1,
   })
   @IsNumber()
+  @IsOptional()
   reserveTime: number;
 
   @ApiProperty({
@@ -89,6 +92,7 @@ export class UpdateReserveDto {
     example: RESERVE_TIME.AM_10_00,
   })
   @IsNumber()
+  @IsOptional()
   startTime: RESERVE_TIME;
 
   @ApiProperty({
@@ -97,6 +101,7 @@ export class UpdateReserveDto {
     example: RESERVE_TIME.AM_11_00,
   })
   @IsNumber()
+  @IsOptional()
   endTime: RESERVE_TIME;
 }
 

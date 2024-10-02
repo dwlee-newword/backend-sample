@@ -2,13 +2,11 @@ import {
   Body,
   Controller,
   Get,
-  Param,
-  ParseIntPipe,
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RentService } from '../../services/rent.service';
-import { RequestRentDto } from './rent.dto';
+import { RequestIdDto, RequestRentDto } from './rent.dto';
 
 @ApiTags('Rent')
 @Controller('rent')
@@ -16,7 +14,7 @@ export class RentController {
   constructor(private readonly rentService: RentService) {}
 
   // read rent list
-  @Get('/search')
+  @Get('/')
   async readRentList() {
     const rentList = await this.rentService.getRentList();
 
@@ -28,7 +26,7 @@ export class RentController {
   }
 
   // request rent
-  @Post('request')
+  @Post('/request')
   async requestRent(@Body() body: RequestRentDto) {
     const { userId, bookId } = body;
     const rent = await this.rentService.requestRent(userId, bookId);
@@ -41,8 +39,9 @@ export class RentController {
   }
 
   // accept rent
-  @Post('accept/:id')
-  async acceptRent(@Param('id', ParseIntPipe) id: number) {
+  @Post('/accept')
+  async acceptRent(@Body() body: RequestIdDto) {
+    const { id } = body;
     const rent = await this.rentService.acceptRent(id);
 
     return {
@@ -53,8 +52,9 @@ export class RentController {
   }
 
   // reject rent
-  @Post('reject/:id')
-  async rejectRent(@Param('id', ParseIntPipe) id: number) {
+  @Post('/reject')
+  async rejectRent(@Body() body: RequestIdDto) {
+    const { id } = body;
     const rent = await this.rentService.rejectRent(id);
 
     return {
@@ -65,8 +65,9 @@ export class RentController {
   }
 
   // return rent
-  @Post('return/:id')
-  async returnRent(@Param('id', ParseIntPipe) id: number) {
+  @Post('/return')
+  async returnRent(@Body() body: RequestIdDto) {
+    const { id } = body;
     const rent = await this.rentService.returnRent(id);
 
     return {

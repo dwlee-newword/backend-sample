@@ -28,7 +28,7 @@ export class ReserveController {
   }
 
   // 예약 등록
-  @Post('create')
+  @Post('/create')
   async createReserve(@Body() body: CreateReserveDto) {
     const { userId, roomId, reserveTime, startTime, endTime } = body;
     const reserve = await this.reserveService.createReserve(
@@ -46,7 +46,7 @@ export class ReserveController {
   }
 
   // 예약 조회
-  @Get(':id')
+  @Get('/:id')
   async readReserve(@Param('id', ParseIntPipe) id: number) {
     const reserve = await this.reserveService.getReserve(id);
 
@@ -58,7 +58,7 @@ export class ReserveController {
   }
 
   // 예약 수정
-  @Post('update')
+  @Post('/update')
   async updateBook(@Body() body: UpdateReserveDto) {
     const { id, userId, roomId, reserveTime, startTime, endTime } = body;
     const reserve = await this.reserveService.updateReserve(
@@ -77,7 +77,7 @@ export class ReserveController {
   }
 
   // 예약 삭제
-  @Post('delete')
+  @Post('/delete')
   async deleteReserve(@Body() body: ReserveIdDto) {
     const { id } = body;
     const reserve = await this.reserveService.deleteReserve(id);

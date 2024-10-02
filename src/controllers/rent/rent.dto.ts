@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class RequestRentDto {
   @ApiProperty({
@@ -8,6 +8,7 @@ export class RequestRentDto {
     example: 1,
   })
   @IsNumber()
+  @IsNotEmpty()
   userId: number;
 
   @ApiProperty({
@@ -16,5 +17,17 @@ export class RequestRentDto {
     example: 1,
   })
   @IsNumber()
+  @IsNotEmpty()
   bookId: number;
+}
+
+export class RequestIdDto {
+  @ApiProperty({
+    description: 'The id of the Request',
+    type: Number,
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
 }

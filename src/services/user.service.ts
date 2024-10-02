@@ -7,7 +7,11 @@ export class UserService {
 
   async getUserList() {
     try {
-      return await this.prisma.user.findMany();
+      return await this.prisma.user.findMany({
+        include: {
+          user_detail: true,
+        },
+      });
     } catch (e) {
       throw new Error(e);
     }

@@ -49,3 +49,62 @@ export class CreateBookDto extends BookDto {
   @IsNumber()
   adminId: number;
 }
+
+export class UpdateBookDto {
+  @ApiProperty({
+    description: 'The id of the Book',
+    type: Number,
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+
+  @ApiProperty({
+    description: 'The title of the Book',
+    type: String,
+    example: 'The Great Gatsby',
+  })
+  @IsString()
+  @IsOptional()
+  title: string;
+
+  @ApiProperty({
+    description: 'The author of the Book',
+    type: String,
+    example: 'F. Scott Fitzgerald',
+  })
+  @IsString()
+  @IsOptional()
+  author: string;
+
+  @ApiProperty({
+    description: 'The summary of the Book',
+    type: String,
+    example:
+      "The Great Gatsby is a novel by American writer F. Scott Fitzgerald. First published in 1925, it is set on Long Island's North Shore and in New York City from spring to autumn of 1922.",
+  })
+  @IsString()
+  @IsOptional()
+  summary: string;
+
+  @ApiProperty({
+    description: 'The ISBN of the Book',
+    type: String,
+    example: '978-3-16-148410-0',
+  })
+  @IsString()
+  @IsOptional()
+  issn: string;
+}
+
+export class BookIdDto {
+  @ApiProperty({
+    description: 'The id of the Book',
+    type: Number,
+    example: 1,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+}
