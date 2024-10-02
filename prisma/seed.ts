@@ -6,6 +6,7 @@ const user: Prisma.userCreateInput[] = [
   {
     email: 'test1@test.com',
     name: 'test1',
+    password:'qwer1234!'
   },
 ];
 

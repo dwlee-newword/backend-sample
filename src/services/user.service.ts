@@ -13,12 +13,13 @@ export class UserService {
     }
   }
 
-  async createUser(name: string, email: string) {
+  async createUser(name: string, email: string, password: string) {
     try {
       return await this.prisma.user.create({
         data: {
           name,
           email,
+          password,
         },
       });
     } catch (e) {
